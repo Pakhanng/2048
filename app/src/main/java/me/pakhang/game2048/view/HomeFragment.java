@@ -1,16 +1,13 @@
 package me.pakhang.game2048.view;
 
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import me.pakhang.game2048.R;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import me.pakhang.game2048.R;
 
 public class HomeFragment extends Fragment {
 

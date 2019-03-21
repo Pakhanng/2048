@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFF0"
     tools:context=".view.GameFragment">
 
     <me.pakhang.game2048.view.widget.Grid
@@ -11,12 +12,12 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_margin="8dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@drawable/shape_grid_bg" />
 
     <Button
         android:id="@+id/down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
@@ -24,28 +25,28 @@
 
     <Button
         android:id="@+id/up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_above="@id/down"
         android:layout_centerHorizontal="true"
         android:text="↑" />
 
     <Button
         android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/down"
         android:layout_marginBottom="32dp"
+        android:layout_toLeftOf="@id/down"
         android:text="←️" />
 
     <Button
         android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/down"
         android:layout_marginBottom="32dp"
+        android:layout_toRightOf="@id/down"
         android:text="→️" />
 
 

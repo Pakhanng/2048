@@ -1,9 +1,12 @@
 package me.pakhang.game2048.view.widget;
 
 import android.content.Context;
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.animation.ScaleAnimation;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +36,14 @@ public class Grid extends GridLayout {
         int length = Math.min(MeasureSpec.getSize(widthSpec), MeasureSpec.getSize(heightSpec));
         Log.d(TAG, "onMeasure() called with: length = [" + length + "]");
 
-//        MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
-//        int margin = params.leftMargin;
-
         // 初始化所有格子
         if (mBlocks == null) {
             mBlocks = new Block[BLOCK_COUNT];
-            int blockLength = length / Config.LEVEL;
+            int blockLength = (length - (Config.LEVEL + 1) * 35) / Config.LEVEL;
             for (int i = 0; i < BLOCK_COUNT; i++) {
                 mBlocks[i] = new Block(getContext(), i);
-                MarginLayoutParams layoutParams = new MarginLayoutParams(blockLength - 10, blockLength - 10);
-                layoutParams.topMargin = layoutParams.bottomMargin = layoutParams.leftMargin = layoutParams.rightMargin = 5;
+                MarginLayoutParams layoutParams = new MarginLayoutParams(blockLength, blockLength);
+                layoutParams.topMargin = layoutParams.leftMargin = 35;
                 addView(mBlocks[i], layoutParams);
                 measureChild(mBlocks[i], widthSpec, heightSpec);
             }
@@ -57,8 +57,10 @@ public class Grid extends GridLayout {
         if (mEmptyBlockIndexList.isEmpty()) {
             return;
         }
-        int i = mRandom.nextInt(mEmptyBlockIndexList.size());
-        mBlocks[mEmptyBlockIndexList.get(i)].setNumber(Math.random() > 0.75f ? 4 : 2); // 生成2或4
+        int index = mEmptyBlockIndexList.get(mRandom.nextInt(mEmptyBlockIndexList.size()));
+        mBlocks[index].setNumber(Math.random() > 0.75f ? 4 : 2); // 生成2或4
+//        mBlocks[index].startAnimation(new ScaleAnimation(0,1,0,1));
+
     }
 
     private void loadEmptyBlockIndexList() {

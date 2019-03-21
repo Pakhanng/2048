@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.GridLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import me.pakhang.game2048.Config;
@@ -14,14 +16,14 @@ public class Grid extends GridLayout {
     private static final String TAG = "cbh";
     private static final int BLOCK_COUNT = Config.LEVEL * Config.LEVEL;
 
-    private final Block[] mBlocks;
+    private Block[] mBlocks;
     private Random mRandom = new Random();
+    private List<Integer> mEmptyBlockIndexList = new ArrayList<>();
 
     public Grid(Context context, AttributeSet attrs) {
         super(context, attrs);
         setRowCount(Config.LEVEL);
         setColumnCount(Config.LEVEL);
-        mBlocks = new Block[BLOCK_COUNT];
     }
 
     @Override
@@ -29,37 +31,46 @@ public class Grid extends GridLayout {
         super.onMeasure(widthSpec, heightSpec);
 
         int length = Math.min(MeasureSpec.getSize(widthSpec), MeasureSpec.getSize(heightSpec));
+        Log.d(TAG, "onMeasure() called with: length = [" + length + "]");
 
-        MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
-        int margin = params.leftMargin;
-        int blockLength = length / Config.LEVEL;
-        Log.d(TAG, "onMeasure() called with: length = [" + length + "], blockLength = [" + blockLength + "]");
-        for (int i = 0; i < BLOCK_COUNT; i++) {
-            mBlocks[i] = new Block(getContext());
-            MarginLayoutParams layoutParams = new MarginLayoutParams(blockLength - 10, blockLength - 10);
-            layoutParams.topMargin = layoutParams.bottomMargin = layoutParams.leftMargin = layoutParams.rightMargin = 5;
-            addView(mBlocks[i], layoutParams);
-            measureChild(mBlocks[i], widthSpec, heightSpec);
+//        MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+//        int margin = params.leftMargin;
+
+        // 初始化所有格子
+        if (mBlocks == null) {
+            mBlocks = new Block[BLOCK_COUNT];
+            int blockLength = length / Config.LEVEL;
+            for (int i = 0; i < BLOCK_COUNT; i++) {
+                mBlocks[i] = new Block(getContext(), i);
+                MarginLayoutParams layoutParams = new MarginLayoutParams(blockLength - 10, blockLength - 10);
+                layoutParams.topMargin = layoutParams.bottomMargin = layoutParams.leftMargin = layoutParams.rightMargin = 5;
+                addView(mBlocks[i], layoutParams);
+                measureChild(mBlocks[i], widthSpec, heightSpec);
+            }
         }
+
         setMeasuredDimension(length, length);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        Log.d(TAG, "onLayout() called with: changed = [" + changed + "], left = [" + left
-                + "], top = [" + top + "], right = [" + right + "], bottom = [" + bottom + "]");
-    }
-
     public void addNumber() {
-        int i = mRandom.nextInt(BLOCK_COUNT);
-        while (mBlocks[i].getNumber() != 0) {
-            i = mRandom.nextInt(BLOCK_COUNT);
+        loadEmptyBlockIndexList();
+        if (mEmptyBlockIndexList.isEmpty()) {
+            return;
         }
-        mBlocks[i].setNumber(2 * (mRandom.nextInt(2) + 1)); //生成2或4
-        Log.d(TAG, "addNumber: i=" + i);
+        int i = mRandom.nextInt(mEmptyBlockIndexList.size());
+        mBlocks[mEmptyBlockIndexList.get(i)].setNumber(Math.random() > 0.75f ? 4 : 2); // 生成2或4
     }
 
+    private void loadEmptyBlockIndexList() {
+        mEmptyBlockIndexList.clear();
+        for (Block block : mBlocks) {
+            if (block.getNumber() == 0) {
+                mEmptyBlockIndexList.add(block.index);
+            }
+        }
+    }
+
+    // x, y => index
     public int getBlockIndex(int x, int y) {
         return x + y * Config.LEVEL;
     }

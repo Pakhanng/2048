@@ -6,7 +6,7 @@
     android:background="#FFFFF0"
     tools:context=".view.GameFragment">
 
-    <me.pakhang.game2048.view.widget.Grid
+    <me.pakhang.game2048.view.widget.GameView
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

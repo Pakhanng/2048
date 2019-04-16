@@ -25,7 +25,7 @@ public class Item extends AppCompatTextView {
         x = index % Config.LEVEL;
         y = index / Config.LEVEL;
         setGravity(Gravity.CENTER);
-        setTextSize(40); //TODO 根据数字调整大小
+        setTextSize(32);
         mGd = new GradientDrawable();
         mGd.setCornerRadius(20);
         setNumber(0);

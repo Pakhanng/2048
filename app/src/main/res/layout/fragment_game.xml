@@ -21,7 +21,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        android:text="↓" />
+        android:text="↓"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/up"
@@ -29,7 +30,8 @@
         android:layout_height="72dp"
         android:layout_above="@id/down"
         android:layout_centerHorizontal="true"
-        android:text="↑" />
+        android:text="↑"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/left"
@@ -38,7 +40,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="32dp"
         android:layout_toLeftOf="@id/down"
-        android:text="←️" />
+        android:text="←️"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/right"
@@ -47,7 +50,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="32dp"
         android:layout_toRightOf="@id/down"
-        android:text="→️" />
+        android:text="→️"
+        android:visibility="gone" />
 
 
 </RelativeLayout>
